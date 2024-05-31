@@ -1,5 +1,6 @@
 resource "aws_security_group" "allow_ssh" {
   vpc_id = var.vpc-id
+  name = "allow_ssh_from_aywhere"
 
   egress {
     from_port   = 0
@@ -18,7 +19,7 @@ resource "aws_security_group" "allow_ssh" {
 
 resource "aws_key_pair" "key" {
   key_name   = "ssh-key"
-  public_key = file("~/.ssh/id_rsa.pub")
+  public_key = file("~/.ssh/ec2_rsa.pub")
 }
 
 data "aws_ami" "ubuntu" {
@@ -39,6 +40,9 @@ resource "aws_instance" "instance_public" {
   lifecycle {
     ignore_changes = [security_groups, tags, user_data]
   }
+  tags = {
+    Name = "public-instance"
+  }
 }
 
 resource "aws_instance" "instance_private" {
@@ -50,5 +54,8 @@ resource "aws_instance" "instance_private" {
   security_groups             = [aws_security_group.allow_ssh.id]
   lifecycle {
     ignore_changes = [security_groups, tags, user_data]
+  }
+  tags = {
+    Name = "private-instance"
   }
 }
