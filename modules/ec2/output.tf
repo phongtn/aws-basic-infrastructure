@@ -1,8 +1,15 @@
-output "ec2_instances" {
-  value = {
-    instance_public_publicDNS = aws_instance.instance_public.public_dns
-    instance_public_privateIp = aws_instance.instance_public.private_ip
-    instance_private_publicDNS = aws_instance.instance_private.public_dns
-    instance_private_privateIp = aws_instance.instance_private.private_ip
-  }
+output "public_pub_ip" {
+  value =  aws_instance.instance_public.public_ip    
+}
+
+output "public_private_ip" {
+  value =  aws_instance.instance_public.private_ip    
+}
+
+output "private_pub_ip" {
+  value =  aws_instance.instance_private.public_ip    
+}
+
+output "private_private_ip" {
+  value =  aws_instance.instance_private.private_ip    
 }
