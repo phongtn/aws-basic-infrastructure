@@ -82,3 +82,10 @@ resource "aws_route_table_association" "public_subnet_asso" {
   subnet_id      = element(aws_subnet.public_subnets[*].id, count.index)
   route_table_id = aws_route_table.second_rt.id
 }
+
+module "ec2" {
+  source = "./modules/ec2"
+  vpc-id = aws_vpc.main.id
+  subnet-public-id = element(aws_subnet.public_subnets[*].id, 0)
+  subnet-private-id = element(aws_subnet.private_subnets[*].id, 0)
+}
